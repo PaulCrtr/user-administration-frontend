@@ -9,6 +9,7 @@ export const useUserList = () => {
   const [previousUrl, setPreviousUrl] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const [savedUrl, setSavedUrl] = useState<string | undefined>();
   const filtersChanged = useRef(false);
   const [filters, setFilters] = useState({
     username: "",
@@ -21,23 +22,25 @@ export const useUserList = () => {
   const handleNextPrevious = (direction: "next" | "previous") => {
     getUsersNextOrPreviousPage(
       direction === "next" ? nextUrl : previousUrl
-    ).then(({ users, next, previous, count }) => {
+    ).then(({ users, next, previous, count, url }) => {
       setUsers(users);
       setNextUrl(next);
       setPreviousUrl(previous);
       setTotalCount(count);
       setCurrentPage(currentPage + (direction === "next" ? 1 : -1));
+      setSavedUrl(url);
     });
   };
 
   const getCurrentPage = useCallback(() => {
-    getUsers(filters).then(({ users, next, previous, count }) => {
+    getUsers(filters, savedUrl).then(({ users, next, previous, count }) => {
       setUsers(users);
       setNextUrl(next);
       setPreviousUrl(previous);
       setTotalCount(count);
+      setSavedUrl(undefined);
     });
-  }, [filters]);
+  }, [filters, savedUrl]);
 
   useEffect(() => {
     // Load data on filter change

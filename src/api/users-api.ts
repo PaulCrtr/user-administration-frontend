@@ -4,7 +4,8 @@ import { FiltersT, UserT } from "../types/user-type";
 const USERS_API_URL = "http://localhost:8000/api/users";
 
 export const getUsers = async (
-  filters: FiltersT
+  filters: FiltersT,
+  savedUrl: string | undefined
 ): Promise<{
   users: UserT[];
   next: string;
@@ -12,7 +13,10 @@ export const getUsers = async (
   count: number;
 }> => {
   const QUERY_FILTERS = `?username=${filters.username}&email=${filters.email}&profile__hometown=${filters.hometown}&profile__age=${filters.age}&profile__gender=${filters.gender}`;
-  const { data } = await axios.get(`${USERS_API_URL}/${QUERY_FILTERS}`);
+
+  const { data } = await axios.get(
+    savedUrl ? savedUrl : `${USERS_API_URL}/${QUERY_FILTERS}`
+  );
   return {
     users: data.results,
     next: data.next,
@@ -25,7 +29,7 @@ export const getUsersNextOrPreviousPage = async (url: string) => {
   const {
     data: { results, next, previous, count },
   } = await axios.get(url);
-  return { users: results, next, previous, count };
+  return { users: results, next, previous, count, url };
 };
 
 export const getUserDetail = async (id: number): Promise<UserT> => {
