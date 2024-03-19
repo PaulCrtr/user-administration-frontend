@@ -1,7 +1,7 @@
 import { Tr, Td, IconButton, useDisclosure } from "@chakra-ui/react";
 import { UserT } from "../../types/user-type";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import UserDetail from "./UserDetail";
+import UserDetail from "../userDetail/UserDetail";
 import { getUserDetail } from "../../api/users-api";
 import { useState } from "react";
 
