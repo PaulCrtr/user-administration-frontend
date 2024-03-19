@@ -9,3 +9,11 @@ export type UserT = {
     gender: string;
   };
 };
+
+export type FiltersT = {
+  username: string;
+  email: string;
+  hometown: string;
+  age: string;
+  gender: string;
+};

@@ -5,13 +5,19 @@ type PaginationProps = {
   resultsPerPage: number;
   totalCount: number;
   currentPage: number;
-  getNextPage: () => void;
-  getPreviousPage: () => void;
+  handleNextPrevious: (direction: "next" | "previous") => void;
   next: string | null;
   previous: string | null;
 };
 
-const Pagination = ({ resultsPerPage, totalCount, currentPage, getNextPage, getPreviousPage, next, previous }: PaginationProps) => {
+const Pagination = ({
+  resultsPerPage,
+  totalCount,
+  currentPage,
+  handleNextPrevious,
+  next,
+  previous,
+}: PaginationProps) => {
   const paginationNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalCount / resultsPerPage); i++) {
@@ -20,11 +26,32 @@ const Pagination = ({ resultsPerPage, totalCount, currentPage, getNextPage, getP
 
   return (
     <Box mt="12px">
-      <IconButton isDisabled={!previous} onClick={getPreviousPage} mr="5px" isRound aria-label="previous" icon={<ArrowLeftIcon />} />
+      <IconButton
+        isDisabled={!previous}
+        onClick={() => handleNextPrevious("previous")}
+        mr="5px"
+        isRound
+        aria-label="previous"
+        icon={<ArrowLeftIcon />}
+      />
       {paginationNumbers.map((pageNumber) => (
-        <IconButton isDisabled={currentPage === pageNumber} mx="2px" isRound aria-label="page" icon={<Box>{pageNumber}</Box>} key={pageNumber} />
+        <IconButton
+          isDisabled={currentPage === pageNumber}
+          mx="2px"
+          isRound
+          aria-label="page"
+          icon={<Box>{pageNumber}</Box>}
+          key={pageNumber}
+        />
       ))}
-      <IconButton isDisabled={!next} onClick={getNextPage} ml="5px" isRound aria-label="next" icon={<ArrowRightIcon />} />
+      <IconButton
+        isDisabled={!next}
+        onClick={() => handleNextPrevious("next")}
+        ml="5px"
+        isRound
+        aria-label="next"
+        icon={<ArrowRightIcon />}
+      />
     </Box>
   );
 };

@@ -10,9 +10,6 @@ import {
   Text,
   NumberInput,
   NumberInputField,
-  NumberIncrementStepper,
-  NumberInputStepper,
-  NumberDecrementStepper,
   InputGroup,
   InputLeftElement,
   Icon,
@@ -23,11 +20,27 @@ import { useUserList } from "./useUserList";
 import { FaSearch } from "react-icons/fa";
 
 const UserList = () => {
-  const { users, nextUrl, previousUrl, totalCount, currentPage, getNextPage, getPreviousPage, getCurrentPage } = useUserList();
+  const {
+    users,
+    nextUrl,
+    previousUrl,
+    totalCount,
+    currentPage,
+    handleNextPrevious,
+    getCurrentPage,
+    filters,
+    handleFilterChange,
+  } = useUserList();
 
   return (
     <Flex flexDir="column" alignItems="center">
-      <TableContainer bg="white" rounded="8px" boxShadow="0px 0px 42px -8px rgba(0,0,0,0.3)">
+      <TableContainer
+        bg="white"
+        rounded="8px"
+        boxShadow="0px 0px 42px -8px rgba(0,0,0,0.3)"
+        w="1200px"
+        h="450px"
+      >
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -38,7 +51,14 @@ const UserList = () => {
                     <InputLeftElement pointerEvents="none">
                       <Icon opacity={0.5} as={FaSearch} />
                     </InputLeftElement>
-                    <Input size="xs" variant="filled" />
+                    <Input
+                      size="xs"
+                      variant="filled"
+                      value={filters.username}
+                      onChange={(e) =>
+                        handleFilterChange(e.target.value, "username")
+                      }
+                    />
                   </InputGroup>
                 </Flex>
               </Th>
@@ -49,7 +69,14 @@ const UserList = () => {
                     <InputLeftElement pointerEvents="none">
                       <Icon opacity={0.5} as={FaSearch} />
                     </InputLeftElement>
-                    <Input size="xs" variant="filled" />
+                    <Input
+                      size="xs"
+                      variant="filled"
+                      value={filters.email}
+                      onChange={(e) =>
+                        handleFilterChange(e.target.value, "email")
+                      }
+                    />
                   </InputGroup>
                 </Flex>
               </Th>
@@ -60,7 +87,14 @@ const UserList = () => {
                     <InputLeftElement pointerEvents="none">
                       <Icon opacity={0.5} as={FaSearch} />
                     </InputLeftElement>
-                    <Input size="xs" variant="filled" />
+                    <Input
+                      size="xs"
+                      variant="filled"
+                      value={filters.hometown}
+                      onChange={(e) =>
+                        handleFilterChange(e.target.value, "hometown")
+                      }
+                    />
                   </InputGroup>
                 </Flex>
               </Th>
@@ -71,12 +105,13 @@ const UserList = () => {
                     <InputLeftElement pointerEvents="none">
                       <Icon opacity={0.5} as={FaSearch} />
                     </InputLeftElement>
-                    <NumberInput size="xs" variant="filled">
+                    <NumberInput
+                      size="xs"
+                      variant="filled"
+                      value={filters.age}
+                      onChange={(value) => handleFilterChange(value, "age")}
+                    >
                       <NumberInputField />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
                     </NumberInput>
                   </InputGroup>
                 </Flex>
@@ -88,7 +123,14 @@ const UserList = () => {
                     <InputLeftElement pointerEvents="none">
                       <Icon opacity={0.5} as={FaSearch} />
                     </InputLeftElement>
-                    <Input size="xs" variant="filled" />
+                    <Input
+                      size="xs"
+                      variant="filled"
+                      value={filters.gender}
+                      onChange={(e) =>
+                        handleFilterChange(e.target.value, "gender")
+                      }
+                    />
                   </InputGroup>
                 </Flex>
               </Th>
@@ -108,8 +150,7 @@ const UserList = () => {
         resultsPerPage={5}
         totalCount={totalCount}
         currentPage={currentPage}
-        getNextPage={getNextPage}
-        getPreviousPage={getPreviousPage}
+        handleNextPrevious={handleNextPrevious}
       />
     </Flex>
   );
