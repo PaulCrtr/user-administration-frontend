@@ -143,7 +143,7 @@ const CreateUser = ({
           <Button variant="ghost" mr={3} onClick={closeModal}>
             Close
           </Button>
-          <Button onClick={onClickUpdate} colorScheme="blue">
+          <Button onClick={onClickUpdate} colorScheme="teal">
             Update
           </Button>
         </ModalFooter>

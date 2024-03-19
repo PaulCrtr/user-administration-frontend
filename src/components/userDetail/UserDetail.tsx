@@ -65,7 +65,7 @@ const UserDetail = ({
         <ModalHeader>
           <Text fontSize="xl">{userDetail?.username}</Text>
           <Text fontSize="md">
-            Joined on
+            Joined on&nbsp;
             {userDetail?.date_joined &&
               format(
                 new Date(userDetail?.date_joined),
