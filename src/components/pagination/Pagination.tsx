@@ -36,7 +36,9 @@ const Pagination = ({
       />
       {paginationNumbers.map((pageNumber) => (
         <IconButton
-          isDisabled={currentPage === pageNumber}
+          _hover={{ cursor: "default" }}
+          isActive
+          isDisabled={currentPage !== pageNumber}
           mx="2px"
           isRound
           aria-label="page"
