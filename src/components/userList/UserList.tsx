@@ -1,52 +1,10 @@
 import { Table, Thead, Tbody, Tr, Th, TableContainer, Flex } from "@chakra-ui/react";
-import { getUsers, getUsersNextOrPreviousPage } from "../../api/users-api";
-import { useCallback, useEffect, useState } from "react";
-import { UserT } from "../../types/user-type";
 import User from "./User";
 import Pagination from "../pagination/Pagination";
-import queryString from 'query-string';
-
+import { useUserList } from "./useUserList";
 
 const UserList = () => {
-  const [users, setUsers] = useState<UserT[]>([]);
-
-  const [nextUrl, setNextUrl] = useState("");
-  const [previousUrl, setPreviousUrl] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [offset, setOffset] = useState(0);
-
-
-  const getNextPage = () => {
-    getUsersNextOrPreviousPage(nextUrl).then(({ users, next, previous, count }) => {
-      setUsers(users);
-      setNextUrl(next);
-      setPreviousUrl(previous);
-      setTotalCount(count);
-    });
-  };
-
-  const getPreviousPage = () => {
-    getUsersNextOrPreviousPage(previousUrl).then(({ users, next, previous, count }) => {
-      setUsers(users);
-      setNextUrl(next);
-      setPreviousUrl(previous);
-      setTotalCount(count);
-    });
-  };
-
-  const loadCurrentPage = () => {
-    getUsers().then(({ users, next, previous, count }) => {
-      setUsers(users);
-      setNextUrl(next);
-      setPreviousUrl(previous);
-      setTotalCount(count);
-    });
-  };
-
-  useEffect(() => {
-    loadCurrentPage();
-  }, []);
+  const { users, nextUrl, previousUrl, totalCount, currentPage, getNextPage, getPreviousPage, getCurrentPage } = useUserList();
 
   return (
     <Flex flexDir="column" alignItems="center">
@@ -64,7 +22,7 @@ const UserList = () => {
           </Thead>
           <Tbody>
             {users.map((user) => (
-              <User user={user} loadCurrentPage={loadCurrentPage} key={user.id} />
+              <User user={user} getCurrentPage={getCurrentPage} key={user.id} />
             ))}
           </Tbody>
         </Table>

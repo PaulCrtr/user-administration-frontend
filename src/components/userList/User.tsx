@@ -7,10 +7,10 @@ import { useState } from "react";
 
 type UserProps = {
   user: UserT;
-  loadCurrentPage: () => void;
+  getCurrentPage: () => void;
 };
 
-const User = ({ user, loadCurrentPage }: UserProps) => {
+const User = ({ user, getCurrentPage }: UserProps) => {
   const detailModal = useDisclosure();
   const [userDetail, setUserDetail] = useState<UserT>();
 
@@ -32,7 +32,7 @@ const User = ({ user, loadCurrentPage }: UserProps) => {
       <Td>{user.profile?.gender}</Td>
       <Td>
         <IconButton onClick={onOpenDetailModal} isRound={true} aria-label="Edit" variant="" icon={<EditIcon />} />
-        <UserDetail isOpen={detailModal.isOpen} closeModal={detailModal.onClose} userDetail={userDetail} loadCurrentPage={loadCurrentPage} />
+        <UserDetail isOpen={detailModal.isOpen} closeModal={detailModal.onClose} userDetail={userDetail} getCurrentPage={getCurrentPage} />
         <IconButton isRound={true} aria-label="Delete" variant="" icon={<DeleteIcon />} />
       </Td>
     </Tr>

@@ -25,10 +25,10 @@ type UserDetailProps = {
   userDetail: UserT | undefined;
   closeModal: () => void;
   isOpen: boolean;
-  loadCurrentPage: () => void;
+  getCurrentPage: () => void;
 };
 
-const UserDetail = ({ closeModal, isOpen, userDetail, loadCurrentPage }: UserDetailProps) => {
+const UserDetail = ({ closeModal, isOpen, userDetail, getCurrentPage }: UserDetailProps) => {
   const [updatedUserDetail, setUpdatedUserDetail] = useState<UserT>({
     username: "",
     email: "",
@@ -46,7 +46,7 @@ const UserDetail = ({ closeModal, isOpen, userDetail, loadCurrentPage }: UserDet
   const onClickUpdate = () => {
     userDetail?.id &&
       updateUser(userDetail.id, updatedUserDetail).then(() => {
-        loadCurrentPage();
+        getCurrentPage();
         closeModal();
       });
   };
