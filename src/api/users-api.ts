@@ -3,21 +3,23 @@ import { UserT } from "../types/user-type";
 
 const USERS_API_URL = "http://localhost:8000/api/users";
 
-export const getUsers = async ({
-  page,
-  nextUrl,
-  previousUrl,
-}: {
-  page: "next" | "previous" | number;
-  nextUrl: string;
-  previousUrl: string;
-}): Promise<{
+export const getUsers = async (): Promise<{
   users: UserT[];
+  next: string;
+  previous: string;
+  count: number;
 }> => {
-  const paginationURL = page === "next" ? nextUrl : page === "previous" ? previousUrl : null;
-  const url = paginationURL ? paginationURL : USERS_API_URL;
-  const { data } = await axios.get(url);
-  return { users: data.results };
+  const {
+    data: { results, next, previous, count },
+  } = await axios.get(USERS_API_URL);
+  return { users: results, next, previous, count };
+};
+
+export const getUsersNextOrPreviousPage = async (url: string) => {
+  const {
+    data: { results, next, previous, count },
+  } = await axios.get(url);
+  return { users: results, next, previous, count };
 };
 
 export const getUserDetail = async (id: number): Promise<UserT> => {
