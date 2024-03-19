@@ -28,7 +28,7 @@ const User = ({ user, getCurrentPage }: UserProps) => {
       <Td>{user.username}</Td>
       <Td>{user.email}</Td>
       <Td>{user.profile?.hometown}</Td>
-      <Td isNumeric>{user.profile?.age}</Td>
+      <Td>{user.profile?.age}</Td>
       <Td>{user.profile?.gender}</Td>
       <Td>
         <IconButton onClick={onOpenDetailModal} isRound={true} aria-label="Edit" variant="" icon={<EditIcon />} />
