@@ -13,13 +13,19 @@ import {
   InputGroup,
   InputLeftElement,
   Icon,
+  IconButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import User from "./User";
 import Pagination from "../pagination/Pagination";
 import { useUserList } from "./useUserList";
 import { FaSearch } from "react-icons/fa";
+import { AddIcon } from "@chakra-ui/icons";
+import CreateUser from "../createUser/CreateUser";
 
 const UserList = () => {
+  const createUserModal = useDisclosure();
+
   const {
     users,
     nextUrl,
@@ -134,7 +140,24 @@ const UserList = () => {
                   </InputGroup>
                 </Flex>
               </Th>
-              <Th></Th>
+              <Th>
+                <Flex justifyContent="right">
+                  <IconButton
+                    onClick={createUserModal.onOpen}
+                    isRound={true}
+                    variant="solid"
+                    colorScheme="teal"
+                    aria-label="Done"
+                    fontSize="20px"
+                    icon={<AddIcon />}
+                  />
+                </Flex>
+                <CreateUser
+                  closeModal={createUserModal.onClose}
+                  getCurrentPage={getCurrentPage}
+                  isOpen={createUserModal.isOpen}
+                />
+              </Th>
             </Tr>
           </Thead>
           <Tbody>

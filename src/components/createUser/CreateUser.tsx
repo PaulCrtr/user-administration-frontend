@@ -16,27 +16,23 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  Text,
 } from "@chakra-ui/react";
 import { UserT } from "../../types/user-type";
-import { useEffect, useState } from "react";
-import { updateUser } from "../../api/users-api";
-import { format } from "date-fns";
+import { useState } from "react";
+import { createUser } from "../../api/users-api";
 
-type UserDetailProps = {
-  userDetail: UserT | undefined;
+type createUserProps = {
   closeModal: () => void;
   isOpen: boolean;
   getCurrentPage: () => void;
 };
 
-const UserDetail = ({
+const CreateUser = ({
   closeModal,
   isOpen,
-  userDetail,
   getCurrentPage,
-}: UserDetailProps) => {
-  const [updatedUserDetail, setUpdatedUserDetail] = useState<UserT>({
+}: createUserProps) => {
+  const [newUser, setNewUser] = useState<UserT>({
     username: "",
     email: "",
     profile: {
@@ -46,34 +42,18 @@ const UserDetail = ({
     },
   });
 
-  useEffect(() => {
-    userDetail && setUpdatedUserDetail(userDetail);
-  }, [userDetail]);
-
   const onClickUpdate = () => {
-    userDetail?.id &&
-      updateUser(userDetail.id, updatedUserDetail).then(() => {
-        getCurrentPage();
-        closeModal();
-      });
+    createUser(newUser).then(() => {
+      getCurrentPage();
+      closeModal();
+    });
   };
 
   return (
     <Modal isOpen={isOpen} onClose={closeModal}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          <Text fontSize="xl">{userDetail?.username}</Text>
-          <Text fontSize="md">
-            Joined on
-            {userDetail?.date_joined &&
-              format(
-                new Date(userDetail?.date_joined),
-                "EEEE, d MMMM yyyy 'at' HH:mm:ss"
-              )}
-          </Text>
-          <Text fontSize="md"># {userDetail?.id}</Text>
-        </ModalHeader>
+        <ModalHeader>Create user</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Stack spacing={5}>
@@ -81,10 +61,10 @@ const UserDetail = ({
               <FormLabel>Username</FormLabel>
               <Input
                 placeholder="Username"
-                value={updatedUserDetail.username}
+                value={newUser.username}
                 onChange={(e) =>
-                  setUpdatedUserDetail({
-                    ...updatedUserDetail,
+                  setNewUser({
+                    ...newUser,
                     username: e.target.value,
                   })
                 }
@@ -94,10 +74,10 @@ const UserDetail = ({
               <FormLabel>Email</FormLabel>
               <Input
                 placeholder="Email"
-                value={updatedUserDetail.email}
+                value={newUser.email}
                 onChange={(e) =>
-                  setUpdatedUserDetail({
-                    ...updatedUserDetail,
+                  setNewUser({
+                    ...newUser,
                     email: e.target.value,
                   })
                 }
@@ -107,12 +87,12 @@ const UserDetail = ({
               <FormLabel>Hometown</FormLabel>
               <Input
                 placeholder="Hometown"
-                value={updatedUserDetail.profile?.hometown}
+                value={newUser.profile?.hometown}
                 onChange={(e) =>
-                  setUpdatedUserDetail({
-                    ...updatedUserDetail,
+                  setNewUser({
+                    ...newUser,
                     profile: {
-                      ...updatedUserDetail.profile,
+                      ...newUser.profile,
                       hometown: e.target.value,
                     },
                   })
@@ -123,12 +103,12 @@ const UserDetail = ({
               <FormLabel>Age</FormLabel>
               <NumberInput
                 min={0}
-                value={updatedUserDetail.profile?.age}
+                value={newUser.profile?.age}
                 onChange={(value) =>
-                  setUpdatedUserDetail({
-                    ...updatedUserDetail,
+                  setNewUser({
+                    ...newUser,
                     profile: {
-                      ...updatedUserDetail.profile,
+                      ...newUser.profile,
                       age: Number(value),
                     },
                   })
@@ -145,12 +125,12 @@ const UserDetail = ({
               <FormLabel>Gender</FormLabel>
               <Input
                 placeholder="Gender"
-                value={updatedUserDetail.profile?.gender}
+                value={newUser.profile?.gender}
                 onChange={(e) =>
-                  setUpdatedUserDetail({
-                    ...updatedUserDetail,
+                  setNewUser({
+                    ...newUser,
                     profile: {
-                      ...updatedUserDetail.profile,
+                      ...newUser.profile,
                       gender: e.target.value,
                     },
                   })
@@ -163,7 +143,7 @@ const UserDetail = ({
           <Button variant="ghost" mr={3} onClick={closeModal}>
             Close
           </Button>
-          <Button onClick={onClickUpdate} colorScheme="teal">
+          <Button onClick={onClickUpdate} colorScheme="blue">
             Update
           </Button>
         </ModalFooter>
@@ -172,4 +152,4 @@ const UserDetail = ({
   );
 };
 
-export default UserDetail;
+export default CreateUser;
