@@ -16,10 +16,12 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Text,
 } from "@chakra-ui/react";
 import { UserT } from "../../types/user-type";
 import { useEffect, useState } from "react";
 import { updateUser } from "../../api/users-api";
+import { format } from "date-fns";
 
 type UserDetailProps = {
   userDetail: UserT | undefined;
@@ -28,7 +30,12 @@ type UserDetailProps = {
   getCurrentPage: () => void;
 };
 
-const UserDetail = ({ closeModal, isOpen, userDetail, getCurrentPage }: UserDetailProps) => {
+const UserDetail = ({
+  closeModal,
+  isOpen,
+  userDetail,
+  getCurrentPage,
+}: UserDetailProps) => {
   const [updatedUserDetail, setUpdatedUserDetail] = useState<UserT>({
     username: "",
     email: "",
@@ -55,7 +62,18 @@ const UserDetail = ({ closeModal, isOpen, userDetail, getCurrentPage }: UserDeta
     <Modal isOpen={isOpen} onClose={closeModal}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{userDetail?.username}</ModalHeader>
+        <ModalHeader>
+          <Text fontSize="xl">{userDetail?.username}</Text>
+          <Text fontSize="md">
+            Joined on
+            {userDetail?.date_joined &&
+              format(
+                new Date(userDetail?.date_joined),
+                "EEEE, d MMMM yyyy 'at' HH:mm:ss"
+              )}
+          </Text>
+          <Text fontSize="md"># {userDetail?.id}</Text>
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Stack spacing={5}>
@@ -64,7 +82,12 @@ const UserDetail = ({ closeModal, isOpen, userDetail, getCurrentPage }: UserDeta
               <Input
                 placeholder="Username"
                 value={updatedUserDetail.username}
-                onChange={(e) => setUpdatedUserDetail({ ...updatedUserDetail, username: e.target.value })}
+                onChange={(e) =>
+                  setUpdatedUserDetail({
+                    ...updatedUserDetail,
+                    username: e.target.value,
+                  })
+                }
               />
             </FormControl>
             <FormControl isRequired>
@@ -72,7 +95,12 @@ const UserDetail = ({ closeModal, isOpen, userDetail, getCurrentPage }: UserDeta
               <Input
                 placeholder="Email"
                 value={updatedUserDetail.email}
-                onChange={(e) => setUpdatedUserDetail({ ...updatedUserDetail, email: e.target.value })}
+                onChange={(e) =>
+                  setUpdatedUserDetail({
+                    ...updatedUserDetail,
+                    email: e.target.value,
+                  })
+                }
               />
             </FormControl>
             <FormControl isRequired>
@@ -80,7 +108,15 @@ const UserDetail = ({ closeModal, isOpen, userDetail, getCurrentPage }: UserDeta
               <Input
                 placeholder="Hometown"
                 value={updatedUserDetail.profile?.hometown}
-                onChange={(e) => setUpdatedUserDetail({ ...updatedUserDetail, profile: { ...updatedUserDetail.profile, hometown: e.target.value } })}
+                onChange={(e) =>
+                  setUpdatedUserDetail({
+                    ...updatedUserDetail,
+                    profile: {
+                      ...updatedUserDetail.profile,
+                      hometown: e.target.value,
+                    },
+                  })
+                }
               />
             </FormControl>
             <FormControl isRequired>
@@ -88,7 +124,15 @@ const UserDetail = ({ closeModal, isOpen, userDetail, getCurrentPage }: UserDeta
               <NumberInput
                 min={0}
                 value={updatedUserDetail.profile?.age}
-                onChange={(value) => setUpdatedUserDetail({ ...updatedUserDetail, profile: { ...updatedUserDetail.profile, age: Number(value) } })}
+                onChange={(value) =>
+                  setUpdatedUserDetail({
+                    ...updatedUserDetail,
+                    profile: {
+                      ...updatedUserDetail.profile,
+                      age: Number(value),
+                    },
+                  })
+                }
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -102,7 +146,15 @@ const UserDetail = ({ closeModal, isOpen, userDetail, getCurrentPage }: UserDeta
               <Input
                 placeholder="Gender"
                 value={updatedUserDetail.profile?.gender}
-                onChange={(e) => setUpdatedUserDetail({ ...updatedUserDetail, profile: { ...updatedUserDetail.profile, gender: e.target.value } })}
+                onChange={(e) =>
+                  setUpdatedUserDetail({
+                    ...updatedUserDetail,
+                    profile: {
+                      ...updatedUserDetail.profile,
+                      gender: e.target.value,
+                    },
+                  })
+                }
               />
             </FormControl>
           </Stack>
